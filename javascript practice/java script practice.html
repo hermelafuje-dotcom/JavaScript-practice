@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>First java script practice</title>
+    </head>
+    <body>
+        <h1 id="result">Waiting...</h1>
+        <button onclick="checkuser()">Check user</button>
+
+        <script>
+            let name="Hermela";
+            let age=19;
+            const country="Ethiopia";
+            let isStudent= true
+            function checkuser()
+             {
+                console.log("Button clicked")
+                let futureAge= age+5;
+                console.log("Age after 5 years:" + futureAge);
+                age+= 1;
+                if(age>= 25 && isStudent === true)
+            {
+                document.getElementById("result").style.color="green"
+                document.getElementById("result").innerHTML= name+ " from "+ country+ "is ready for internship!";
+            } else{
+                document.getElementById("result").style.color="red"
+                document.getElementById("result").innerHTML=name+" is not ready yet";
+            }
+            }
+        </script>
+    </body>
+</html>

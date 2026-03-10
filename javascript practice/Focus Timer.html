@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Focus Timer Pro</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #2c3e50; color: white; }
+        .container { text-align: center; background: #34495e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 350px; transition: 0.3s; }
+        
+        /* The "Box" from our previous lesson */
+        #timerBox { font-size: 60px; font-weight: bold; margin: 20px 0; padding: 20px; border-radius: 15px; background: rgba(255, 255, 255, 0.1); transition: all 0.5s ease; cursor: pointer; }
+        #timerBox:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.02); }
+
+        .controls button { padding: 12px 25px; font-size: 16px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .start { background: #27ae60; color: white; }
+        .stop { background: #e74c3c; color: white; }
+        .reset { background: #7f8c8d; color: white; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+        
+        .status { margin-top: 15px; font-style: italic; color: #bdc3c7; }
+        input { background: transparent; border: 1px solid #7f8c8d; color: white; padding: 5px; text-align: center; border-radius: 5px; width: 200px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainCard">
+        <h2>Task Timer</h2>
+        <input type="text" id="taskName" placeholder="What are you working on?" onkeydown="handleKey(event)">
+        
+        <div id="timerBox">25:00</div>
+        
+        <div class="controls">
+            <button class="start" id="startBtn">START</button>
+            <button class="stop" id="stopBtn">STOP</button>
+            <button class="reset" id="resetBtn">RESET</button>
+        </div>
+        
+        <p class="status" id="statusMsg">Ready to focus?</p>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let timerId = null;
+        const timerBox = document.getElementById("timerBox");
+        const statusMsg = document.getElementById("statusMsg");
+        const taskInput = document.getElementById("taskName");
+
+        // LOAD: Restore task name from LocalStorage
+        window.onload = () => {
+            const savedTask = localStorage.getItem("currentTask");
+            if (savedTask) taskInput.value = savedTask;
+        };
+
+        // DOM Update Function
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerBox.innerHTML = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            // STYLE CHANGE: Change color as time runs out
+            if (timeLeft < 60) {
+                timerBox.style.color = "#e74c3c"; // Red for "hurry up"
+            } else {
+                timerBox.style.color = "white";
+            }
+        }
+
+        // START Event
+        document.getElementById("startBtn").addEventListener("click", () => {
+            if (timerId !== null) return; // Prevent double intervals
+            
+            statusMsg.innerHTML = "Stay focused!";
+            document.getElementById("mainCard").style.boxShadow = "0 10px 30px rgba(39, 174, 96, 0.4)";
+            
+            timerId = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    alert("Time is up! Take a break.");
+                }
+            }, 1000);
+        });
+
+        // STOP Event
+        document.getElementById("stopBtn").addEventListener("click", () => {
+            clearInterval(timerId);
+            timerId = null;
+            statusMsg.innerHTML = "Paused.";
+            document.getElementById("mainCard").style.boxShadow = "0 10px 30px rgba(0,0,0,0.5)";
+        });
+
+        // RESET Event
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            clearInterval(timerId);
+            timerId = null;
+            timeLeft = 25 * 60;
+            updateDisplay();
+            statusMsg.innerHTML = "Ready to focus?";
+        });
+
+        // KEYBOARD EVENT: Press Enter to save task
+        function handleKey(e) {
+            if (e.key === "Enter") {
+                localStorage.setItem("currentTask", taskInput.value);
+                statusMsg.innerHTML = "Task saved!";
+                taskInput.blur(); // Remove focus from input
+            }
+        }
+
+        // MOUSE EVENT: Change box on hover
+        timerBox.onmouseover = () => timerBox.style.letterSpacing = "5px";
+        timerBox.onmouseout = () => timerBox.style.letterSpacing = "normal";
+
+    </script>
+</body>
+</html>

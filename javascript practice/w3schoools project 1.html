@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>W3schools projects</title>
+        <style>
+            /* This creates the look of the box */
+            #colorBox {
+                width: 150px;
+                height: 150px;
+                background-color: lightgray;
+                border: 2px solid #000;
+                margin: 20px 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: sans-serif;
+                transition: 0.3s; /* Smooth color change */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>JavaScript Project</h1>
+        <h2>Counter</h2>
+        
+        <div id="colorBox">Box</div>
+
+        <p id="count" style="font-size: 25px;">0</p>
+        
+        <button onclick="increaseCount()">+</button>
+        <button onclick="decreaseCount()">-</button>
+        <button onclick="resetCount()">Reset</button>
+        <button onclick="saveCount()">Save</button>
+        <button onclick="loadCount()">Load</button>
+
+<script>
+    let count = 10;
+    const box = document.getElementById("colorBox"); // Reference the box
+    
+    loadCount();
+
+    function updateCount() {
+        document.getElementById("count").innerHTML = count;
+        
+        // 2. Logic to change box color based on count
+        if (count > 10) {
+            box.style.backgroundColor = "green";
+            box.style.color = "white";
+            box.innerHTML = "High!";
+        } else if (count < 10) {
+            box.style.backgroundColor = "red";
+            box.style.color = "white";
+            box.innerHTML = "Low!";
+        } else {
+            box.style.backgroundColor = "white";
+            box.style.color = "black";
+            box.innerHTML = "Neutral";
+        }
+    }
+
+    function increaseCount() {
+        count++;
+        updateCount();
+    }
+
+    function decreaseCount(){
+        if (count > 0) {
+            count--;
+            updateCount();
+        }
+    }
+
+    function resetCount() {
+        count = 10;
+        updateCount();
+    }
+
+    function saveCount() {
+        localStorage.setItem("count", count);
+    }
+
+    function loadCount() {
+        let saved = localStorage.getItem("count");
+        if (saved !== null) {
+            count = Number(saved);
+        }
+        updateCount();
+    }
+</script>
+    
+    </body>
+</html>

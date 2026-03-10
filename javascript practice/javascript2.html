@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JS Practice- Conditional & Loops</title>
+    </head>
+    <body>
+        <h1>JS Practice Playground</h1>
+        <h2 id="ternaryResult">Ternary:waiting...</h2>
+        <h2 id="switchResult">Switch:waiting...</h2>
+        <h2 id="booleanResult">Boolean & Logical:waiting...</h2>
+        <h2 id="loopResult">Loop:waiting...</h2>
+        <button id="ternaryBtn">Ternary Test</button>
+        <button id="switchBtn">Switch Test</button>
+        <button id="booleanBtn">Boolean Test</button>
+        <button id="loopBtn">Loop Test</button>
+        <script>
+            document.getElementById("ternaryBtn").addEventListener("click",function(){
+                let age=30 
+                let result=age>=18 ? "Adult" : "Minor";
+                document.getElementById("ternaryResult").innerHTML = "Ternary result:" + result;
+            });
+           
+            document.getElementById("switchBtn").addEventListener("click", function() {
+            let day = 2;
+            let dayName;
+            switch(day) {
+                case 1: dayName = "Monday"; break;
+                case 2: dayName = "Tuesday"; break;
+                case 3: dayName = "Wednesday"; break;
+                case 4: dayName = "Thursday"; break;
+                default: dayName = "Unknown";
+            }
+            document.getElementById("switchResult").innerHTML = "Switch result: " + dayName;
+        });
+
+      
+        document.getElementById("booleanBtn").addEventListener("click", function() {
+            let isLoggedIn = true;
+            let hasSubscription = false;
+            let access = (isLoggedIn && hasSubscription) ? "Access granted" : "Access denied";
+            document.getElementById("booleanResult").innerHTML = "Boolean & Logic: " + access;
+        });
+
+       
+        document.getElementById("loopBtn").addEventListener("click", function() {
+            let output = "";
+            
+           
+            for(let i = 1; i <= 5; i++) {
+                output += i + " ";
+            }
+
+            
+            let j = 5;
+            output += "<br>While loop: ";
+            while(j > 0) {
+                output += j + " ";
+                j--;
+            }
+
+            
+            let k = 1;
+            output += "<br>Do-While loop: ";
+            do {
+                output += k + " ";
+                k++;
+            } while(k <= 3);
+
+            document.getElementById("loopResult").innerHTML = output;
+        });
+    </script>
+</body>
+</html>
+        </script>
+    </body>
+</html>
